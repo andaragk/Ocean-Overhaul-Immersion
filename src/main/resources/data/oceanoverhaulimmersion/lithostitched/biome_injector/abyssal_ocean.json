@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "lithostitched"
+    }
+  ],
+  "type": "lithostitched:replace_partially",
+  "dimension": "minecraft:overworld",
+  "targets": "minecraft:deep_ocean",
+  "replacement": "oceanoverhaulimmersion:abyssal_ocean",
+  "parameters": {
+    "oceanoverhaulimmersion:abyssal_ocean_region": {
+      "min_inclusive": 0.5
+    }
+  }
+}

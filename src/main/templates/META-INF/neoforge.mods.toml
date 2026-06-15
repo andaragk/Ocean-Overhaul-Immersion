@@ -1,0 +1,38 @@
+modLoader = "javafml"
+loaderVersion = "${loader_version_range}"
+license = "${mod_license}"
+
+[[mods]]
+modId = "${mod_id}"
+version = "${mod_version}"
+displayName = "${mod_name}"
+authors = "${mod_authors}"
+logoFile = "assets/oceanoverhaulimmersion/ooimmersion_512.png"
+description = '''${mod_description}'''
+
+[[mixins]]
+config = "${mod_id}.mixins.json"
+
+[[dependencies."${mod_id}"]]
+modId = "neoforge"
+type = "required"
+versionRange = "${neo_version_range}"
+side = "BOTH"
+
+[[dependencies."${mod_id}"]]
+modId = "minecraft"
+type = "required"
+versionRange = "${minecraft_version_range}"
+side = "BOTH"
+
+[[dependencies."${mod_id}"]]
+modId = "paperworksapi"
+type = "required"
+versionRange = "[0.0.1-alpha,)"
+side = "BOTH"
+
+[[dependencies."${mod_id}"]]
+modId = "lithostitched"
+type = "optional"
+versionRange = "[0,)"
+side = "BOTH"

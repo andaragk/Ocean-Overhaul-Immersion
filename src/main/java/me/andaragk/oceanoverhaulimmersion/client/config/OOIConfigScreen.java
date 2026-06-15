@@ -1,0 +1,114 @@
+package me.andaragk.oceanoverhaulimmersion.client.config;
+
+import me.andaragk.oceanoverhaulimmersion.OceanOverhaulImmersion;
+import me.andaragk.oceanoverhaulimmersion.config.OOIClientConfig;
+import me.andaragk.oceanoverhaulimmersion.config.OOICommonConfig;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
+
+public final class OOIConfigScreen extends Screen {
+    private final Screen parent;
+
+    public OOIConfigScreen(Screen parent) {
+        super(Component.literal(OceanOverhaulImmersion.MOD_NAME));
+        this.parent = parent;
+    }
+
+    @Override
+    protected void init() {
+        int center = this.width / 2;
+        int y = 42;
+
+        addToggle(center, y, "Immersion", OOIClientConfig.enableImmersion, value -> OOIClientConfig.setEnableImmersion(value));
+        y += 24;
+        addToggle(center, y, "Underwater fog", OOIClientConfig.enableUnderwaterFog, value -> OOIClientConfig.setEnableUnderwaterFog(value));
+        y += 24;
+        addToggle(center, y, "Underwater sound", OOIClientConfig.enableUnderwaterSound, value -> OOIClientConfig.setEnableUnderwaterSound(value));
+        y += 24;
+        addToggle(center, y, "Depth debug log", OOIClientConfig.enableDepthDebugLog, value -> OOIClientConfig.setEnableDepthDebugLog(value));
+
+        y += 34;
+        addNumber(center, y, "Fog strength", "%.2f".formatted(OOIClientConfig.fogStrength), () -> OOIClientConfig.setFogStrength(OOIClientConfig.fogStrength - 0.1D), () -> OOIClientConfig.setFogStrength(OOIClientConfig.fogStrength + 0.1D));
+        y += 24;
+        addNumber(center, y, "Depth update ticks", String.valueOf(OOIClientConfig.depthUpdateIntervalTicks), () -> OOIClientConfig.setDepthUpdateIntervalTicks(OOIClientConfig.depthUpdateIntervalTicks - 1), () -> OOIClientConfig.setDepthUpdateIntervalTicks(OOIClientConfig.depthUpdateIntervalTicks + 1));
+        y += 24;
+        addNumber(center, y, "Surface search distance", String.valueOf(OOIClientConfig.maxSurfaceSearchDistance), () -> OOIClientConfig.setMaxSurfaceSearchDistance(OOIClientConfig.maxSurfaceSearchDistance - 8), () -> OOIClientConfig.setMaxSurfaceSearchDistance(OOIClientConfig.maxSurfaceSearchDistance + 8));
+
+        y += 34;
+        addToggle(center, y, "Abyssal depth worldgen", OOICommonConfig.enablePreabyssalAndAbyssalDepth, value -> OOICommonConfig.setEnablePreabyssalAndAbyssalDepth(value));
+        y += 24;
+        addToggle(center, y, "Hadal trenches", OOICommonConfig.enableHadalTrenches, value -> OOICommonConfig.setEnableHadalTrenches(value));
+        y += 24;
+        addToggle(center, y, "Abyssal oceans", OOICommonConfig.enableAbyssalOceans, value -> OOICommonConfig.setEnableAbyssalOceans(value));
+        y += 24;
+        addToggle(center, y, "Calm bubbles", OOICommonConfig.enableCalmBubbles, value -> OOICommonConfig.setEnableCalmBubbles(value));
+        y += 24;
+        addNumber(center, y, "Deep ocean multiplier", "%.2f".formatted(OOICommonConfig.abyssalDepthMultiplier), () -> OOICommonConfig.setAbyssalDepthMultiplier(OOICommonConfig.abyssalDepthMultiplier - 0.05D), () -> OOICommonConfig.setAbyssalDepthMultiplier(OOICommonConfig.abyssalDepthMultiplier + 0.05D));
+        y += 24;
+        addNumber(center, y, "Abyssal ocean multiplier", "%.2f".formatted(OOICommonConfig.abyssalOceanDepthMultiplier), () -> OOICommonConfig.setAbyssalOceanDepthMultiplier(OOICommonConfig.abyssalOceanDepthMultiplier - 0.05D), () -> OOICommonConfig.setAbyssalOceanDepthMultiplier(OOICommonConfig.abyssalOceanDepthMultiplier + 0.05D));
+        y += 24;
+        addNumber(center, y, "Abyssal ocean rarity", OOICommonConfig.abyssalOceanRarityPercent + "%", () -> OOICommonConfig.setAbyssalOceanRarityPercent(OOICommonConfig.abyssalOceanRarityPercent - 1), () -> OOICommonConfig.setAbyssalOceanRarityPercent(OOICommonConfig.abyssalOceanRarityPercent + 1));
+        y += 24;
+        addNumber(center, y, "Abyssal floor Y", String.valueOf(OOICommonConfig.abyssalFloorY), () -> OOICommonConfig.setAbyssalFloorY(OOICommonConfig.abyssalFloorY - 1), () -> OOICommonConfig.setAbyssalFloorY(OOICommonConfig.abyssalFloorY + 1));
+        y += 24;
+        addNumber(center, y, "Hadal floor Y", String.valueOf(OOICommonConfig.hadalFloorY), () -> OOICommonConfig.setHadalFloorY(OOICommonConfig.hadalFloorY - 1), () -> OOICommonConfig.setHadalFloorY(OOICommonConfig.hadalFloorY + 1));
+        y += 24;
+        addNumber(center, y, "Abyssal chance", OOICommonConfig.abyssalChancePercent + "%", () -> OOICommonConfig.setAbyssalChancePercent(OOICommonConfig.abyssalChancePercent - 1), () -> OOICommonConfig.setAbyssalChancePercent(OOICommonConfig.abyssalChancePercent + 1));
+        y += 24;
+        addNumber(center, y, "Hadal chance", OOICommonConfig.hadalChancePercent + "%", () -> OOICommonConfig.setHadalChancePercent(OOICommonConfig.hadalChancePercent - 1), () -> OOICommonConfig.setHadalChancePercent(OOICommonConfig.hadalChancePercent + 1));
+
+        this.addRenderableWidget(Button.builder(Component.literal("Done"), button -> saveAndClose())
+                .bounds(center - 75, this.height - 30, 150, 20)
+                .build());
+    }
+
+    private void addToggle(int center, int y, String label, boolean value, BooleanSetter setter) {
+        this.addRenderableWidget(Button.builder(toggleText(label, value), button -> {
+            setter.set(!value);
+            rebuildWidgets();
+        }).bounds(center - 155, y, 310, 20).build());
+    }
+
+    private void addNumber(int center, int y, String label, String value, Runnable decrement, Runnable increment) {
+        this.addRenderableWidget(Button.builder(Component.literal("-"), button -> {
+            decrement.run();
+            rebuildWidgets();
+        }).bounds(center - 155, y, 24, 20).build());
+
+        this.addRenderableWidget(Button.builder(Component.literal(label + ": " + value), button -> {
+        }).bounds(center - 127, y, 254, 20).build());
+
+        this.addRenderableWidget(Button.builder(Component.literal("+"), button -> {
+            increment.run();
+            rebuildWidgets();
+        }).bounds(center + 131, y, 24, 20).build());
+    }
+
+    private Component toggleText(String label, boolean value) {
+        return Component.literal(label + ": " + (value ? "ON" : "OFF"));
+    }
+
+    private void saveAndClose() {
+        OOIClientConfig.save();
+        OOICommonConfig.save();
+        this.minecraft.setScreen(parent);
+    }
+
+    @Override
+    public void onClose() {
+        saveAndClose();
+    }
+
+    @Override
+    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+        super.render(graphics, mouseX, mouseY, partialTick);
+        graphics.drawCenteredString(this.font, this.title, this.width / 2, 15, 0xFFFFFF);
+        graphics.drawCenteredString(this.font, Component.literal("Experimental worldgen changes affect newly generated chunks."), this.width / 2, 28, 0xA0A0A0);
+    }
+
+    private interface BooleanSetter {
+        void set(boolean value);
+    }
+}

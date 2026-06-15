@@ -1,0 +1,14 @@
+.gradle/
+build/
+run/
+run-*/
+out/
+
+*.log
+*.tmp
+*.bak
+
+.idea/
+*.iml
+
+repo/
