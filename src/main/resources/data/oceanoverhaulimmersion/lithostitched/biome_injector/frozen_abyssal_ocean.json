@@ -10,8 +10,11 @@
   "targets": "minecraft:deep_frozen_ocean",
   "replacement": "oceanoverhaulimmersion:frozen_abyssal_ocean",
   "parameters": {
-    "oceanoverhaulimmersion:abyssal_ocean_region": {
-      "min_inclusive": 0.5
+    "parameters": {
+      "oceanoverhaulimmersion:abyssal_ocean_region": {
+        "min_inclusive": 0.5,
+        "max_inclusive": 1.0
+      }
     }
   }
 }
