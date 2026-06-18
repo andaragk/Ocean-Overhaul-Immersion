@@ -33,7 +33,7 @@ public final class OOIConfigScreen extends Screen {
             y += 34;
             addNumber(center, y, "Fog strength", "%.2f".formatted(OOIClientConfig.fogStrength), () -> OOIClientConfig.setFogStrength(OOIClientConfig.fogStrength - 0.1D), () -> OOIClientConfig.setFogStrength(OOIClientConfig.fogStrength + 0.1D));
         } else if (page == 1) {
-            addToggle(center, y, "Surface waves", OOIClientConfig.enableSurfaceWaves, value -> OOIClientConfig.setEnableSurfaceWaves(value));
+            addToggle(center, y, "Experimental wave overlay", OOIClientConfig.enableSurfaceWaves, value -> OOIClientConfig.setEnableSurfaceWaves(value));
             y += 24;
             addNumber(center, y, "Wave height", "%.2f".formatted(OOIClientConfig.surfaceWaveHeight), () -> OOIClientConfig.setSurfaceWaveHeight(OOIClientConfig.surfaceWaveHeight - 0.01D), () -> OOIClientConfig.setSurfaceWaveHeight(OOIClientConfig.surfaceWaveHeight + 0.01D));
             y += 24;

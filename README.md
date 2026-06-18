@@ -6,7 +6,7 @@ The mod focuses on perception: underwater visibility, depth, fog, light, isolati
 
 ## Current Status
 
-Version: `0.3.0`
+Version: `0.3.1`
 
 This is an early test build for Minecraft `1.21.1` on NeoForge. The core immersion features are usable, while the abyssal worldgen layer is still experimental and should be tested on new worlds or newly generated chunks.
 
@@ -21,16 +21,19 @@ This is an early test build for Minecraft `1.21.1` on NeoForge. The core immersi
   - Hadal: 111+ blocks below the surface.
 - Progressive vanilla underwater fog and visibility changes.
 - Smooth fog transitions when entering, leaving, or descending through water.
-- Lightweight client-side visual surface waves.
+- Experimental client-side visual wave overlay, disabled by default.
 - Optional Calm Bubbles behavior: bubble columns stay visible but no longer push or pull entities.
 - PaperWorks API alpha integration for publishing ocean immersion state.
 
 ## Surface Waves
 
-The first `0.3.x` surface module adds a lightweight animated visual wave overlay around the player.
+The first `0.3.x` surface module includes an experimental animated wave overlay around the player.
+
+This overlay is mainly a diagnostic prototype. It proves that Ocean Overhaul can animate water-adjacent visuals, but it is not the intended final wave rendering path. The final wave system should integrate deeper into water rendering or shader-aware rendering so it does not look like a separate mesh placed on top of the ocean.
 
 - `enable_surface_waves`
-  - Enables or disables visual waves.
+  - Enables or disables the experimental visual wave overlay.
+  - Disabled by default.
   - Client-side only.
   - Does not modify collisions, hitboxes, water physics, or server state.
 

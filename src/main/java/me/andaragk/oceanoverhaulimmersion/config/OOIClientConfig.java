@@ -46,13 +46,13 @@ public final class OOIClientConfig {
 
     private static final ModConfigSpec.BooleanValue ENABLE_SURFACE_WAVES = BUILDER
             .comment(
-                    "Enables lightweight client-side visual waves on nearby water surfaces.",
-                    "This is a visual overlay only: it does not change water physics, collisions, or world state.")
-            .define("enable_surface_waves", true);
+                    "Experimental visual wave overlay used for testing only.",
+                    "Disabled by default because the final wave system should integrate deeper into water rendering.")
+            .define("enable_surface_waves", false);
 
     private static final ModConfigSpec.DoubleValue SURFACE_WAVE_HEIGHT = BUILDER
             .comment("Visual wave height in blocks.")
-            .defineInRange("surface_wave_height", 0.08D, 0.0D, 0.5D);
+            .defineInRange("surface_wave_height", 0.20D, 0.0D, 0.5D);
 
     private static final ModConfigSpec.DoubleValue SURFACE_WAVE_SPEED = BUILDER
             .comment("Visual wave animation speed.")
