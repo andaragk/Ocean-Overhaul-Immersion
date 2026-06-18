@@ -52,17 +52,23 @@ public final class AbyssalOceanRegion implements DensityFunction {
     }
 
     private static double regionalNoise(int blockX, int blockZ) {
-        double x = blockX / 256.0D;
-        double z = blockZ / 256.0D;
+        double scale = Math.max(128.0D, OOICommonConfig.abyssalRegionScaleBlocks);
+        if (OOICommonConfig.enableLargeAbyssalBasins) {
+            scale *= 1.75D;
+        }
+
+        double x = blockX / scale;
+        double z = blockZ / scale;
         int ix = fastFloor(x);
         int iz = fastFloor(z);
         double fx = smoothstep(x - ix);
         double fz = smoothstep(z - iz);
 
-        double a = value(ix, iz);
-        double b = value(ix + 1, iz);
-        double c = value(ix, iz + 1);
-        double d = value(ix + 1, iz + 1);
+        double smoothness = OOICommonConfig.abyssalRegionSmoothnessPercent / 100.0D;
+        double a = smoothedValue(ix, iz, smoothness);
+        double b = smoothedValue(ix + 1, iz, smoothness);
+        double c = smoothedValue(ix, iz + 1, smoothness);
+        double d = smoothedValue(ix + 1, iz + 1, smoothness);
 
         return lerp(lerp(a, b, fx), lerp(c, d, fx), fz);
     }
@@ -75,6 +81,21 @@ public final class AbyssalOceanRegion implements DensityFunction {
     private static double value(int x, int z) {
         int hashed = hash(x, z, 0x4F3A2B1C);
         return (hashed & 0x7FFFFFFF) / (double) 0x7FFFFFFF;
+    }
+
+    private static double smoothedValue(int x, int z, double smoothness) {
+        if (smoothness <= 0.0D) {
+            return value(x, z);
+        }
+
+        double center = value(x, z);
+        double neighbors = (
+                value(x - 1, z) +
+                        value(x + 1, z) +
+                        value(x, z - 1) +
+                        value(x, z + 1)) * 0.25D;
+        double regional = center * 0.65D + neighbors * 0.35D;
+        return lerp(center, regional, Math.min(1.0D, smoothness));
     }
 
     private static double smoothstep(double value) {

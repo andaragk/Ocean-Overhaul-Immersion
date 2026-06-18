@@ -6,7 +6,7 @@ The mod focuses on perception: underwater visibility, depth, fog, light, isolati
 
 ## Current Status
 
-Version: `0.2.5`
+Version: `0.2.6`
 
 This is an early test build for Minecraft `1.21.1` on NeoForge. The core immersion features are usable, while the abyssal worldgen layer is still experimental and should be tested on new worlds or newly generated chunks.
 
@@ -41,6 +41,9 @@ Worldgen features require Lithostitched at runtime.
     - `oceanoverhaulimmersion:lukewarm_abyssal_ocean`
   - Default depth multiplier: `3.25`.
   - Default regional rarity: `12%`.
+  - Default regional scale: `768` blocks.
+  - Large basin mode is enabled by default to favor broad abyssal ocean areas instead of compact pockets.
+  - Regional smoothness is configurable to reduce spotty biome borders.
 
 - `enable_hadal_trenches`
   - Still experimental.

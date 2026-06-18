@@ -44,6 +44,12 @@ public final class OOIConfigScreen extends Screen {
             addNumber(center, y, "Abyssal ocean multiplier", "%.2f".formatted(OOICommonConfig.abyssalOceanDepthMultiplier), () -> OOICommonConfig.setAbyssalOceanDepthMultiplier(OOICommonConfig.abyssalOceanDepthMultiplier - 0.05D), () -> OOICommonConfig.setAbyssalOceanDepthMultiplier(OOICommonConfig.abyssalOceanDepthMultiplier + 0.05D));
             y += 24;
             addNumber(center, y, "Abyssal ocean rarity", OOICommonConfig.abyssalOceanRarityPercent + "%", () -> OOICommonConfig.setAbyssalOceanRarityPercent(OOICommonConfig.abyssalOceanRarityPercent - 1), () -> OOICommonConfig.setAbyssalOceanRarityPercent(OOICommonConfig.abyssalOceanRarityPercent + 1));
+        } else if (page == 2) {
+            addToggle(center, y, "Large abyssal basins", OOICommonConfig.enableLargeAbyssalBasins, value -> OOICommonConfig.setEnableLargeAbyssalBasins(value));
+            y += 24;
+            addNumber(center, y, "Abyssal region scale", OOICommonConfig.abyssalRegionScaleBlocks + " blocks", () -> OOICommonConfig.setAbyssalRegionScaleBlocks(OOICommonConfig.abyssalRegionScaleBlocks - 128), () -> OOICommonConfig.setAbyssalRegionScaleBlocks(OOICommonConfig.abyssalRegionScaleBlocks + 128));
+            y += 24;
+            addNumber(center, y, "Abyssal smoothness", OOICommonConfig.abyssalRegionSmoothnessPercent + "%", () -> OOICommonConfig.setAbyssalRegionSmoothnessPercent(OOICommonConfig.abyssalRegionSmoothnessPercent - 5), () -> OOICommonConfig.setAbyssalRegionSmoothnessPercent(OOICommonConfig.abyssalRegionSmoothnessPercent + 5));
         } else {
             addToggle(center, y, "Depth debug log", OOIClientConfig.enableDepthDebugLog, value -> OOIClientConfig.setEnableDepthDebugLog(value));
             y += 24;
@@ -74,7 +80,7 @@ public final class OOIConfigScreen extends Screen {
         }).bounds(center - 115, y, 110, 20).build());
 
         this.addRenderableWidget(Button.builder(Component.literal(">"), button -> {
-            page = Math.min(2, page + 1);
+            page = Math.min(3, page + 1);
             rebuildWidgets();
         }).bounds(center - 1, y, 36, 20).build());
 
@@ -111,14 +117,15 @@ public final class OOIConfigScreen extends Screen {
 
     private String pageLabel() {
         return switch (page) {
-            case 0 -> "Immersion 1/3";
-            case 1 -> "Worldgen 2/3";
-            default -> "Advanced 3/3";
+            case 0 -> "Immersion 1/4";
+            case 1 -> "Worldgen 2/4";
+            case 2 -> "Abyssal 3/4";
+            default -> "Advanced 4/4";
         };
     }
 
     private String pageHint() {
-        return page == 1 ? "Worldgen changes affect newly generated chunks." : "";
+        return page == 1 || page == 2 ? "Worldgen changes affect newly generated chunks." : "";
     }
 
     private void saveAndClose() {

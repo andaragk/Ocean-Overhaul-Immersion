@@ -73,6 +73,24 @@ public final class OOICommonConfig {
                     "Lower values keep abyssal oceans rare and far apart.")
             .defineInRange("abyssal_ocean_rarity_percent", 12, 0, 100);
 
+    private static final ModConfigSpec.IntValue ABYSSAL_REGION_SCALE_BLOCKS = BUILDER
+            .comment(
+                    "Approximate X/Z scale of abyssal-ocean regions, in blocks.",
+                    "Larger values create wider abyssal basins instead of small pockets.")
+            .defineInRange("abyssal_region_scale_blocks", 768, 128, 4096);
+
+    private static final ModConfigSpec.IntValue ABYSSAL_REGION_SMOOTHNESS_PERCENT = BUILDER
+            .comment(
+                    "Softens abyssal-region borders by mixing nearby regional noise.",
+                    "Higher values make basins feel less spotty while remaining deterministic.")
+            .defineInRange("abyssal_region_smoothness_percent", 65, 0, 100);
+
+    private static final ModConfigSpec.BooleanValue ENABLE_LARGE_ABYSSAL_BASINS = BUILDER
+            .comment(
+                    "Favors broad abyssal basins over compact abyssal pockets.",
+                    "This is still lightweight: it only changes the regional mask scale.")
+            .define("enable_large_abyssal_basins", true);
+
     public static final ModConfigSpec SPEC = BUILDER.build();
 
     public static boolean enablePreabyssalAndAbyssalDepth;
@@ -86,6 +104,9 @@ public final class OOICommonConfig {
     public static double abyssalDepthMultiplier;
     public static double abyssalOceanDepthMultiplier;
     public static int abyssalOceanRarityPercent;
+    public static int abyssalRegionScaleBlocks;
+    public static int abyssalRegionSmoothnessPercent;
+    public static boolean enableLargeAbyssalBasins;
 
     private OOICommonConfig() {
     }
@@ -107,6 +128,9 @@ public final class OOICommonConfig {
         abyssalDepthMultiplier = ABYSSAL_DEPTH_MULTIPLIER.get();
         abyssalOceanDepthMultiplier = ABYSSAL_OCEAN_DEPTH_MULTIPLIER.get();
         abyssalOceanRarityPercent = ABYSSAL_OCEAN_RARITY_PERCENT.get();
+        abyssalRegionScaleBlocks = ABYSSAL_REGION_SCALE_BLOCKS.get();
+        abyssalRegionSmoothnessPercent = ABYSSAL_REGION_SMOOTHNESS_PERCENT.get();
+        enableLargeAbyssalBasins = ENABLE_LARGE_ABYSSAL_BASINS.get();
     }
 
     public static void setEnablePreabyssalAndAbyssalDepth(boolean value) {
@@ -166,6 +190,21 @@ public final class OOICommonConfig {
     public static void setAbyssalOceanRarityPercent(int value) {
         abyssalOceanRarityPercent = Math.max(0, Math.min(100, value));
         ABYSSAL_OCEAN_RARITY_PERCENT.set(abyssalOceanRarityPercent);
+    }
+
+    public static void setAbyssalRegionScaleBlocks(int value) {
+        abyssalRegionScaleBlocks = Math.max(128, Math.min(4096, value));
+        ABYSSAL_REGION_SCALE_BLOCKS.set(abyssalRegionScaleBlocks);
+    }
+
+    public static void setAbyssalRegionSmoothnessPercent(int value) {
+        abyssalRegionSmoothnessPercent = Math.max(0, Math.min(100, value));
+        ABYSSAL_REGION_SMOOTHNESS_PERCENT.set(abyssalRegionSmoothnessPercent);
+    }
+
+    public static void setEnableLargeAbyssalBasins(boolean value) {
+        enableLargeAbyssalBasins = value;
+        ENABLE_LARGE_ABYSSAL_BASINS.set(value);
     }
 
     public static double worldgenDepthMultiplier() {
