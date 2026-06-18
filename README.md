@@ -6,7 +6,7 @@ The mod focuses on perception: underwater visibility, depth, fog, light, isolati
 
 ## Current Status
 
-Version: `0.2.4`
+Version: `0.2.5`
 
 This is an early test build for Minecraft `1.21.1` on NeoForge. The core immersion features are usable, while the abyssal worldgen layer is still experimental and should be tested on new worlds or newly generated chunks.
 
@@ -48,9 +48,9 @@ Worldgen features require Lithostitched at runtime.
 
 ## Ocean Monuments
 
-Abyssal ocean biomes are intentionally not added to the vanilla `#minecraft:is_deep_ocean` biome tag. Since ocean monuments use that tag, abyssal oceans should not be valid monument spawn biomes.
+Abyssal ocean biomes are added to the vanilla `#minecraft:is_deep_ocean` biome tag so other mods can still recognize them as true deep ocean biomes.
 
-Regular deep oceans and true deep oceans can still host vanilla ocean monuments.
+Ocean monument spawning is blocked separately by overriding `#minecraft:has_structure/ocean_monument` to list only the vanilla deep-ocean biomes. This keeps abyssal oceans deep-ocean compatible without making them monument spawn biomes.
 
 ## Shader Notes
 

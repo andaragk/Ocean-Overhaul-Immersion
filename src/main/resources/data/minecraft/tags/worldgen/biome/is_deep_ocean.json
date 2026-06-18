@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "oceanoverhaulimmersion:abyssal_ocean",
+    "oceanoverhaulimmersion:cold_abyssal_ocean",
+    "oceanoverhaulimmersion:frozen_abyssal_ocean",
+    "oceanoverhaulimmersion:lukewarm_abyssal_ocean"
+  ]
+}
