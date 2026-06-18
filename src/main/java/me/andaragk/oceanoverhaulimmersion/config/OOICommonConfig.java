@@ -12,9 +12,9 @@ public final class OOICommonConfig {
 
     private static final ModConfigSpec.BooleanValue ENABLE_PREABYSSAL_AND_ABYSSAL_DEPTH = BUILDER
             .comment(
-                    "Experimental worldgen module: allows some newly generated deep-ocean chunks to form much deeper floors so pre-abyssal and abyssal immersion zones can naturally exist.",
+                    "Experimental worldgen module: makes vanilla deep-ocean biomes behave as true deep oceans without turning them into abyssal ocean biomes.",
                     "Disabled by default for maximum worldgen compatibility. Test on new worlds first.")
-            .define("enable_preabyssal_and_abyssal_depth", false);
+            .define("enable_true_deep_oceans", false);
 
     private static final ModConfigSpec.BooleanValue ENABLE_HADAL_TRENCHES = BUILDER
             .comment(
@@ -31,7 +31,7 @@ public final class OOICommonConfig {
     private static final ModConfigSpec.BooleanValue ENABLE_ABYSSAL_OCEANS = BUILDER
             .comment(
                     "Experimental Lithostitched biome module: allows rare abyssal ocean biomes to replace parts of vanilla deep-ocean biomes.",
-                    "Requires enable_preabyssal_and_abyssal_depth and Lithostitched at runtime.")
+                    "Requires enable_true_deep_oceans and Lithostitched at runtime.")
             .define("enable_abyssal_oceans", false);
 
     private static final ModConfigSpec.IntValue ABYSSAL_FLOOR_Y = BUILDER
@@ -65,7 +65,7 @@ public final class OOICommonConfig {
             .comment(
                     "Experimental Lithostitched worldgen depth multiplier for dedicated abyssal ocean biomes.",
                     "Only applies where the abyssal-ocean regional mask is active.")
-            .defineInRange("abyssal_ocean_depth_multiplier", 2.75D, 1.0D, 3.0D);
+            .defineInRange("abyssal_ocean_depth_multiplier", 3.25D, 1.0D, 4.0D);
 
     private static final ModConfigSpec.IntValue ABYSSAL_OCEAN_RARITY_PERCENT = BUILDER
             .comment(
@@ -159,7 +159,7 @@ public final class OOICommonConfig {
     }
 
     public static void setAbyssalOceanDepthMultiplier(double value) {
-        abyssalOceanDepthMultiplier = Math.max(1.0D, Math.min(3.0D, value));
+        abyssalOceanDepthMultiplier = Math.max(1.0D, Math.min(4.0D, value));
         ABYSSAL_OCEAN_DEPTH_MULTIPLIER.set(abyssalOceanDepthMultiplier);
     }
 

@@ -31,7 +31,7 @@ public final class AbyssalDepthMultiplier implements DensityFunction {
 
     @Override
     public double maxValue() {
-        return 3.0D;
+        return 4.0D;
     }
 
     @Override

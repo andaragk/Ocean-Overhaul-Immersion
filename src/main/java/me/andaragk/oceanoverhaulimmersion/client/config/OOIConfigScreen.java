@@ -33,7 +33,7 @@ public final class OOIConfigScreen extends Screen {
             y += 34;
             addNumber(center, y, "Fog strength", "%.2f".formatted(OOIClientConfig.fogStrength), () -> OOIClientConfig.setFogStrength(OOIClientConfig.fogStrength - 0.1D), () -> OOIClientConfig.setFogStrength(OOIClientConfig.fogStrength + 0.1D));
         } else if (page == 1) {
-            addToggle(center, y, "Abyssal depth worldgen", OOICommonConfig.enablePreabyssalAndAbyssalDepth, value -> OOICommonConfig.setEnablePreabyssalAndAbyssalDepth(value));
+            addToggle(center, y, "True deep oceans", OOICommonConfig.enablePreabyssalAndAbyssalDepth, value -> OOICommonConfig.setEnablePreabyssalAndAbyssalDepth(value));
             y += 24;
             addToggle(center, y, "Abyssal oceans", OOICommonConfig.enableAbyssalOceans, value -> OOICommonConfig.setEnableAbyssalOceans(value));
             y += 24;

@@ -1,48 +1,68 @@
 # Ocean Overhaul: Immersion
 
-Ocean Overhaul: Immersion transforms Minecraft water into a more atmospheric environment without adding exploration content.
+Ocean Overhaul: Immersion transforms Minecraft water into a more atmospheric environment without turning the ocean into an exploration-content mod.
 
-## MVP 0.1.x
+The mod focuses on perception: underwater visibility, depth, fog, light, isolation, and optional deeper ocean worldgen.
+
+## Current Status
+
+Version: `0.2.4`
+
+This is an early test build for Minecraft `1.21.1` on NeoForge. The core immersion features are usable, while the abyssal worldgen layer is still experimental and should be tested on new worlds or newly generated chunks.
+
+## Features
 
 - Client-side underwater depth tracking.
-- Vertical water-surface search on the Y axis only.
-- Ocean-inspired immersion zones:
-  - Littoral / epipelagic: 1-15 blocks below surface.
-  - Mesopelagic / bathyal: 16-45 blocks below surface.
-  - Bathypelagic / midnight: 46-75 blocks below surface.
-  - Abyssopelagic: 76-110 blocks below surface.
-  - Hadal: 111+ blocks below surface.
-- Progressive underwater fog color and visibility per zone, with smoothed transitions.
-- Experimental optional abyssal depth generation for newly generated deep-ocean chunks.
-- Experimental optional hadal trench generation, dependent on abyssal depth generation.
-- In-game configuration screen exposed through the NeoForge mod list config button.
-- Optional Calm Bubbles behavior: bubble columns remain visible but no longer push or pull entities.
-- PaperWorks API 0.0.1-alpha integration: Ocean Overhaul publishes its ocean immersion state through the first Axis Mundi API alpha.
-
-## Design Boundaries
-
-This mod does not add mobs, structures, loot, ores, equipment, bosses, complex biomes, hardcore oxygen systems, or a complete weather system.
-
-Surface waves, wakes, particles, and sediments are reserved for later versions.
+- Depth-based immersion zones:
+  - Littoral / epipelagic: 1-15 blocks below the surface.
+  - Mesopelagic / bathyal: 16-45 blocks below the surface.
+  - Bathypelagic / midnight: 46-75 blocks below the surface.
+  - Abyssopelagic: 76-110 blocks below the surface.
+  - Hadal: 111+ blocks below the surface.
+- Progressive vanilla underwater fog and visibility changes.
+- Smooth fog transitions when entering, leaving, or descending through water.
+- Optional Calm Bubbles behavior: bubble columns stay visible but no longer push or pull entities.
+- PaperWorks API alpha integration for publishing ocean immersion state.
 
 ## Experimental Worldgen
 
-The common config contains:
+Worldgen features require Lithostitched at runtime.
 
-- `enable_preabyssal_and_abyssal_depth`
+- `enable_true_deep_oceans`
+  - Makes vanilla deep-ocean biomes behave as true deep oceans.
+  - Default depth multiplier: `2.25`.
+  - This keeps deep oceans impressive without turning all of them into abyssal oceans.
+
+- `enable_abyssal_oceans`
+  - Adds dedicated abyssal ocean biome variants:
+    - `oceanoverhaulimmersion:abyssal_ocean`
+    - `oceanoverhaulimmersion:cold_abyssal_ocean`
+    - `oceanoverhaulimmersion:frozen_abyssal_ocean`
+    - `oceanoverhaulimmersion:lukewarm_abyssal_ocean`
+  - Default depth multiplier: `3.25`.
+  - Default regional rarity: `12%`.
+
 - `enable_hadal_trenches`
-- `abyssal_floor_y`, default `-40`
-- `hadal_floor_y`, default `-60`
+  - Still experimental.
+  - Reserved for future large, rare, smoother hadal trench shapes.
 
-Both are disabled by default. Enable them only on a new test world for now. The first option allows some deep-ocean columns to descend toward abyssal depths. The second adds rarer hadal trench columns below those abyssal areas.
+## Ocean Monuments
 
-The current experimental generator avoids raising the water above the vanilla ocean surface and only affects newly generated deep-ocean chunks that look safely offshore. Final bathymetry still needs a proper noise/worldgen integration before publication.
+Abyssal ocean biomes are intentionally not added to the vanilla `#minecraft:is_deep_ocean` biome tag. Since ocean monuments use that tag, abyssal oceans should not be valid monument spawn biomes.
 
-The current prototype caps per-chunk edits to avoid full square chunks being carved during testing.
+Regular deep oceans and true deep oceans can still host vanilla ocean monuments.
 
 ## Shader Notes
 
-The current underwater fog hook affects the vanilla/NeoForge fog pipeline. Shader packs such as BSL through Iris may replace that pipeline, so the visual changes can be reduced or invisible while shaders are enabled. Shader-aware immersion is tracked as a separate compatibility task.
+The current fog system modifies the vanilla/NeoForge fog pipeline. Shader packs such as BSL through Iris can override or reinterpret that pipeline, so shader behavior may differ from vanilla.
+
+Observed shader darkening at depth should be treated cautiously until tested with controlled comparisons: same location, same time, same depth, shader on/off, with screenshots or video.
+
+## Design Boundaries
+
+This mod does not add mobs, structures, loot, ores, equipment, bosses, hardcore oxygen systems, or a complete weather system.
+
+Surface waves, wakes, particles, sediments, and shader-specific integration are planned as later work, not part of the current stable core.
 
 ## License
 
