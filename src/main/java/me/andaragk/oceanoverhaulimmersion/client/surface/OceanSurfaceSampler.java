@@ -112,9 +112,10 @@ public final class OceanSurfaceSampler {
     }
 
     private static float waveStrength(int depth, int shoreDistance) {
-        float depthFactor = smoothstep(clamp01((depth - 2.0F) / 18.0F));
-        float shoreFactor = smoothstep(clamp01((shoreDistance - 4.0F) / 12.0F));
-        return Math.max(0.15F, depthFactor * 0.65F + shoreFactor * 0.35F);
+        float depthFactor = smoothstep(clamp01((depth - 2.0F) / 24.0F));
+        float shoreFactor = smoothstep(clamp01((shoreDistance - 3.0F) / 15.0F));
+        float offshoreSwell = depthFactor * shoreFactor;
+        return 0.18F + depthFactor * 0.45F + shoreFactor * 0.25F + offshoreSwell * 0.75F;
     }
 
     private static float regionalDirection(int x, int z) {

@@ -52,7 +52,7 @@ public final class OOIClientConfig {
 
     private static final ModConfigSpec.DoubleValue SURFACE_WAVE_HEIGHT = BUILDER
             .comment("Visual wave height in blocks.")
-            .defineInRange("surface_wave_height", 0.20D, 0.0D, 0.5D);
+            .defineInRange("surface_wave_height", 0.28D, 0.0D, 1.0D);
 
     private static final ModConfigSpec.DoubleValue SURFACE_WAVE_SPEED = BUILDER
             .comment("Visual wave animation speed.")
@@ -164,7 +164,7 @@ public final class OOIClientConfig {
     }
 
     public static void setSurfaceWaveHeight(double value) {
-        surfaceWaveHeight = Math.max(0.0D, Math.min(0.5D, value));
+        surfaceWaveHeight = Math.max(0.0D, Math.min(1.0D, value));
         SURFACE_WAVE_HEIGHT.set(surfaceWaveHeight);
     }
 

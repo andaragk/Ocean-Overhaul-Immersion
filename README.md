@@ -6,7 +6,7 @@ The mod focuses on perception: underwater visibility, depth, fog, light, isolati
 
 ## Current Status
 
-Version: `0.3.3`
+Version: `0.3.4`
 
 This is an early test build for Minecraft `1.21.1` on NeoForge. The core immersion features are usable, while the abyssal worldgen layer is still experimental and should be tested on new worlds or newly generated chunks.
 
@@ -55,6 +55,7 @@ This is still not the final Physics-Mod-style ocean renderer, but the calculatio
 
 - `surface_wave_height`
   - Controls the vertical amplitude of the visual waves.
+  - The current default is tuned higher for testing offshore/deep-water swell.
 
 - `surface_wave_speed`
   - Controls wave animation speed.
