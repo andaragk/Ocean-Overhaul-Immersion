@@ -6,7 +6,7 @@ The mod focuses on perception: underwater visibility, depth, fog, light, isolati
 
 ## Current Status
 
-Version: `0.3.2`
+Version: `0.3.3`
 
 This is an early test build for Minecraft `1.21.1` on NeoForge. The core immersion features are usable, while the abyssal worldgen layer is still experimental and should be tested on new worlds or newly generated chunks.
 
@@ -29,7 +29,15 @@ This is an early test build for Minecraft `1.21.1` on NeoForge. The core immersi
 
 The first `0.3.x` surface module includes an experimental animated wave overlay around the player.
 
-This overlay is mainly a diagnostic prototype. It proves that Ocean Overhaul can animate water-adjacent visuals, but it is not the intended final wave rendering path. The final wave system should integrate deeper into water rendering or shader-aware rendering so it does not look like a separate mesh placed on top of the ocean.
+The first overlay proved that Ocean Overhaul can animate water-adjacent visuals, but it was too detached from the real water surface. Version `0.3.3` starts rebuilding the surface module around separate layers:
+
+- surface sampling;
+- water depth estimation;
+- shore-distance estimation;
+- directional procedural waves;
+- rendering.
+
+This is still not the final Physics-Mod-style ocean renderer, but the calculations are now separated from the renderer so future shader-aware or mesh-based rendering can reuse them.
 
 - `enable_surface_waves`
   - Legacy name for the first prototype.
@@ -40,6 +48,10 @@ This overlay is mainly a diagnostic prototype. It proves that Ocean Overhaul can
   - Disabled by default.
   - Client-side only.
   - Does not modify collisions, hitboxes, water physics, or server state.
+
+- `enable_surface_waves_v2`
+  - Enables the current `0.3.x` visual wave prototype.
+  - Uses depth and shore distance so waves are calmer near shallow/coastal water and stronger offshore.
 
 - `surface_wave_height`
   - Controls the vertical amplitude of the visual waves.
