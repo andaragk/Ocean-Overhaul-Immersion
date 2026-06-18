@@ -26,6 +26,12 @@ public final class OOIClientConfig {
             .comment("Logs depth zone changes on the client. Useful for testing, disabled by default.")
             .define("enable_depth_debug_log", false);
 
+    private static final ModConfigSpec.BooleanValue ENABLE_SHADER_DIAGNOSTIC_OVERLAY = BUILDER
+            .comment(
+                    "Shows a small in-game diagnostic overlay for underwater fog and shader state.",
+                    "Useful to verify whether Ocean Overhaul is applying fog values while a shader pack is active.")
+            .define("enable_shader_diagnostic_overlay", false);
+
     private static final ModConfigSpec.IntValue DEPTH_UPDATE_INTERVAL_TICKS = BUILDER
             .comment("How often the client recalculates underwater depth. Higher values are lighter, lower values react faster.")
             .defineInRange("depth_update_interval_ticks", 10, 1, 100);
@@ -44,6 +50,7 @@ public final class OOIClientConfig {
     public static boolean enableUnderwaterFog;
     public static boolean enableUnderwaterSound;
     public static boolean enableDepthDebugLog;
+    public static boolean enableShaderDiagnosticOverlay;
     public static int depthUpdateIntervalTicks;
     public static int maxSurfaceSearchDistance;
     public static double fogStrength;
@@ -61,6 +68,7 @@ public final class OOIClientConfig {
         enableUnderwaterFog = ENABLE_UNDERWATER_FOG.get();
         enableUnderwaterSound = ENABLE_UNDERWATER_SOUND.get();
         enableDepthDebugLog = ENABLE_DEPTH_DEBUG_LOG.get();
+        enableShaderDiagnosticOverlay = ENABLE_SHADER_DIAGNOSTIC_OVERLAY.get();
         depthUpdateIntervalTicks = DEPTH_UPDATE_INTERVAL_TICKS.get();
         maxSurfaceSearchDistance = MAX_SURFACE_SEARCH_DISTANCE.get();
         fogStrength = FOG_STRENGTH.get();
@@ -84,6 +92,11 @@ public final class OOIClientConfig {
     public static void setEnableDepthDebugLog(boolean value) {
         ENABLE_DEPTH_DEBUG_LOG.set(value);
         enableDepthDebugLog = value;
+    }
+
+    public static void setEnableShaderDiagnosticOverlay(boolean value) {
+        ENABLE_SHADER_DIAGNOSTIC_OVERLAY.set(value);
+        enableShaderDiagnosticOverlay = value;
     }
 
     public static void setDepthUpdateIntervalTicks(int value) {

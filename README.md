@@ -6,7 +6,7 @@ The mod focuses on perception: underwater visibility, depth, fog, light, isolati
 
 ## Current Status
 
-Version: `0.2.6`
+Version: `0.2.7`
 
 This is an early test build for Minecraft `1.21.1` on NeoForge. The core immersion features are usable, while the abyssal worldgen layer is still experimental and should be tested on new worlds or newly generated chunks.
 
@@ -60,6 +60,8 @@ Ocean monument spawning is blocked separately by overriding `#minecraft:has_stru
 The current fog system modifies the vanilla/NeoForge fog pipeline. Shader packs such as BSL through Iris can override or reinterpret that pipeline, so shader behavior may differ from vanilla.
 
 Observed shader darkening at depth should be treated cautiously until tested with controlled comparisons: same location, same time, same depth, shader on/off, with screenshots or video.
+
+The client config includes `enable_shader_diagnostic_overlay`, which displays the current Ocean Overhaul depth, computed fog values, and PaperWorks/Iris shader state while underwater. This helps separate "Ocean Overhaul is applying its fog profile" from "the active shader pack visually uses or ignores that profile".
 
 ## Design Boundaries
 

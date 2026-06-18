@@ -53,6 +53,8 @@ public final class OOIConfigScreen extends Screen {
         } else {
             addToggle(center, y, "Depth debug log", OOIClientConfig.enableDepthDebugLog, value -> OOIClientConfig.setEnableDepthDebugLog(value));
             y += 24;
+            addToggle(center, y, "Shader diagnostics", OOIClientConfig.enableShaderDiagnosticOverlay, value -> OOIClientConfig.setEnableShaderDiagnosticOverlay(value));
+            y += 24;
             addNumber(center, y, "Depth update ticks", String.valueOf(OOIClientConfig.depthUpdateIntervalTicks), () -> OOIClientConfig.setDepthUpdateIntervalTicks(OOIClientConfig.depthUpdateIntervalTicks - 1), () -> OOIClientConfig.setDepthUpdateIntervalTicks(OOIClientConfig.depthUpdateIntervalTicks + 1));
             y += 24;
             addNumber(center, y, "Surface search distance", String.valueOf(OOIClientConfig.maxSurfaceSearchDistance), () -> OOIClientConfig.setMaxSurfaceSearchDistance(OOIClientConfig.maxSurfaceSearchDistance - 8), () -> OOIClientConfig.setMaxSurfaceSearchDistance(OOIClientConfig.maxSurfaceSearchDistance + 8));

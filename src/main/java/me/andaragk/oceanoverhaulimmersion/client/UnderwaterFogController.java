@@ -13,6 +13,8 @@ import net.neoforged.neoforge.client.event.ViewportEvent;
 
 @EventBusSubscriber(modid = OceanOverhaulImmersion.MOD_ID, value = Dist.CLIENT)
 public final class UnderwaterFogController {
+    private static AppliedFogState lastAppliedFogState = AppliedFogState.NONE;
+
     private UnderwaterFogController() {
     }
 
@@ -35,6 +37,7 @@ public final class UnderwaterFogController {
         event.setFarPlaneDistance(Math.max(nearDistance + 0.25F, farDistance));
         event.setFogShape(FogShape.SPHERE);
         event.setCanceled(true);
+        lastAppliedFogState = new AppliedFogState(true, state.depth(), state.zone(), nearDistance, Math.max(nearDistance + 0.25F, farDistance), profile.red(), profile.green(), profile.blue());
     }
 
     @SubscribeEvent
@@ -44,6 +47,7 @@ public final class UnderwaterFogController {
             state = OceanImmersionClient.refreshNow();
         }
         if (!shouldApply(state)) {
+            lastAppliedFogState = AppliedFogState.NONE;
             return;
         }
 
@@ -52,6 +56,10 @@ public final class UnderwaterFogController {
         event.setRed(lerp(event.getRed(), profile.red(), strength));
         event.setGreen(lerp(event.getGreen(), profile.green(), strength));
         event.setBlue(lerp(event.getBlue(), profile.blue(), strength));
+    }
+
+    public static AppliedFogState lastAppliedFogState() {
+        return lastAppliedFogState;
     }
 
     private static boolean shouldApply(WaterDepthState state) {
@@ -94,5 +102,9 @@ public final class UnderwaterFogController {
         private static float smoothstep(float value) {
             return value * value * (3.0F - 2.0F * value);
         }
+    }
+
+    public record AppliedFogState(boolean active, int depth, DepthZone zone, float nearDistance, float farDistance, float red, float green, float blue) {
+        public static final AppliedFogState NONE = new AppliedFogState(false, 0, DepthZone.SURFACE, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
     }
 }
