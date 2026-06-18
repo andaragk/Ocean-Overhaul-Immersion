@@ -44,6 +44,36 @@ public final class OOIClientConfig {
             .comment("Global multiplier for Ocean Overhaul underwater fog intensity.")
             .defineInRange("fog_strength", 1.0D, 0.0D, 2.0D);
 
+    private static final ModConfigSpec.BooleanValue ENABLE_SURFACE_WAVES = BUILDER
+            .comment(
+                    "Enables lightweight client-side visual waves on nearby water surfaces.",
+                    "This is a visual overlay only: it does not change water physics, collisions, or world state.")
+            .define("enable_surface_waves", true);
+
+    private static final ModConfigSpec.DoubleValue SURFACE_WAVE_HEIGHT = BUILDER
+            .comment("Visual wave height in blocks.")
+            .defineInRange("surface_wave_height", 0.08D, 0.0D, 0.5D);
+
+    private static final ModConfigSpec.DoubleValue SURFACE_WAVE_SPEED = BUILDER
+            .comment("Visual wave animation speed.")
+            .defineInRange("surface_wave_speed", 1.0D, 0.0D, 4.0D);
+
+    private static final ModConfigSpec.DoubleValue SURFACE_WAVE_SCALE = BUILDER
+            .comment("Horizontal scale of visual waves. Higher values create broader waves.")
+            .defineInRange("surface_wave_scale", 10.0D, 2.0D, 48.0D);
+
+    private static final ModConfigSpec.IntValue SURFACE_WAVE_RADIUS = BUILDER
+            .comment("Radius around the player where visual waves are sampled and rendered.")
+            .defineInRange("surface_wave_radius", 18, 4, 48);
+
+    private static final ModConfigSpec.IntValue SURFACE_WAVE_GRID_STEP = BUILDER
+            .comment("Spacing between sampled wave quads. Higher values are lighter but less detailed.")
+            .defineInRange("surface_wave_grid_step", 2, 1, 6);
+
+    private static final ModConfigSpec.DoubleValue SURFACE_WAVE_OPACITY = BUILDER
+            .comment("Opacity of the visual wave highlight overlay.")
+            .defineInRange("surface_wave_opacity", 0.20D, 0.0D, 0.75D);
+
     public static final ModConfigSpec SPEC = BUILDER.build();
 
     public static boolean enableImmersion;
@@ -54,6 +84,13 @@ public final class OOIClientConfig {
     public static int depthUpdateIntervalTicks;
     public static int maxSurfaceSearchDistance;
     public static double fogStrength;
+    public static boolean enableSurfaceWaves;
+    public static double surfaceWaveHeight;
+    public static double surfaceWaveSpeed;
+    public static double surfaceWaveScale;
+    public static int surfaceWaveRadius;
+    public static int surfaceWaveGridStep;
+    public static double surfaceWaveOpacity;
 
     private OOIClientConfig() {
     }
@@ -72,6 +109,13 @@ public final class OOIClientConfig {
         depthUpdateIntervalTicks = DEPTH_UPDATE_INTERVAL_TICKS.get();
         maxSurfaceSearchDistance = MAX_SURFACE_SEARCH_DISTANCE.get();
         fogStrength = FOG_STRENGTH.get();
+        enableSurfaceWaves = ENABLE_SURFACE_WAVES.get();
+        surfaceWaveHeight = SURFACE_WAVE_HEIGHT.get();
+        surfaceWaveSpeed = SURFACE_WAVE_SPEED.get();
+        surfaceWaveScale = SURFACE_WAVE_SCALE.get();
+        surfaceWaveRadius = SURFACE_WAVE_RADIUS.get();
+        surfaceWaveGridStep = SURFACE_WAVE_GRID_STEP.get();
+        surfaceWaveOpacity = SURFACE_WAVE_OPACITY.get();
     }
 
     public static void setEnableImmersion(boolean value) {
@@ -112,6 +156,41 @@ public final class OOIClientConfig {
     public static void setFogStrength(double value) {
         fogStrength = Math.max(0.0D, Math.min(2.0D, value));
         FOG_STRENGTH.set(fogStrength);
+    }
+
+    public static void setEnableSurfaceWaves(boolean value) {
+        ENABLE_SURFACE_WAVES.set(value);
+        enableSurfaceWaves = value;
+    }
+
+    public static void setSurfaceWaveHeight(double value) {
+        surfaceWaveHeight = Math.max(0.0D, Math.min(0.5D, value));
+        SURFACE_WAVE_HEIGHT.set(surfaceWaveHeight);
+    }
+
+    public static void setSurfaceWaveSpeed(double value) {
+        surfaceWaveSpeed = Math.max(0.0D, Math.min(4.0D, value));
+        SURFACE_WAVE_SPEED.set(surfaceWaveSpeed);
+    }
+
+    public static void setSurfaceWaveScale(double value) {
+        surfaceWaveScale = Math.max(2.0D, Math.min(48.0D, value));
+        SURFACE_WAVE_SCALE.set(surfaceWaveScale);
+    }
+
+    public static void setSurfaceWaveRadius(int value) {
+        surfaceWaveRadius = Math.max(4, Math.min(48, value));
+        SURFACE_WAVE_RADIUS.set(surfaceWaveRadius);
+    }
+
+    public static void setSurfaceWaveGridStep(int value) {
+        surfaceWaveGridStep = Math.max(1, Math.min(6, value));
+        SURFACE_WAVE_GRID_STEP.set(surfaceWaveGridStep);
+    }
+
+    public static void setSurfaceWaveOpacity(double value) {
+        surfaceWaveOpacity = Math.max(0.0D, Math.min(0.75D, value));
+        SURFACE_WAVE_OPACITY.set(surfaceWaveOpacity);
     }
 
     public static void save() {

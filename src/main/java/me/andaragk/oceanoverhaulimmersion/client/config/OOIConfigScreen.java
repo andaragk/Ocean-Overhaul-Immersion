@@ -33,6 +33,20 @@ public final class OOIConfigScreen extends Screen {
             y += 34;
             addNumber(center, y, "Fog strength", "%.2f".formatted(OOIClientConfig.fogStrength), () -> OOIClientConfig.setFogStrength(OOIClientConfig.fogStrength - 0.1D), () -> OOIClientConfig.setFogStrength(OOIClientConfig.fogStrength + 0.1D));
         } else if (page == 1) {
+            addToggle(center, y, "Surface waves", OOIClientConfig.enableSurfaceWaves, value -> OOIClientConfig.setEnableSurfaceWaves(value));
+            y += 24;
+            addNumber(center, y, "Wave height", "%.2f".formatted(OOIClientConfig.surfaceWaveHeight), () -> OOIClientConfig.setSurfaceWaveHeight(OOIClientConfig.surfaceWaveHeight - 0.01D), () -> OOIClientConfig.setSurfaceWaveHeight(OOIClientConfig.surfaceWaveHeight + 0.01D));
+            y += 24;
+            addNumber(center, y, "Wave speed", "%.2f".formatted(OOIClientConfig.surfaceWaveSpeed), () -> OOIClientConfig.setSurfaceWaveSpeed(OOIClientConfig.surfaceWaveSpeed - 0.1D), () -> OOIClientConfig.setSurfaceWaveSpeed(OOIClientConfig.surfaceWaveSpeed + 0.1D));
+            y += 24;
+            addNumber(center, y, "Wave scale", "%.1f".formatted(OOIClientConfig.surfaceWaveScale), () -> OOIClientConfig.setSurfaceWaveScale(OOIClientConfig.surfaceWaveScale - 1.0D), () -> OOIClientConfig.setSurfaceWaveScale(OOIClientConfig.surfaceWaveScale + 1.0D));
+            y += 24;
+            addNumber(center, y, "Wave radius", String.valueOf(OOIClientConfig.surfaceWaveRadius), () -> OOIClientConfig.setSurfaceWaveRadius(OOIClientConfig.surfaceWaveRadius - 2), () -> OOIClientConfig.setSurfaceWaveRadius(OOIClientConfig.surfaceWaveRadius + 2));
+            y += 24;
+            addNumber(center, y, "Wave detail", String.valueOf(OOIClientConfig.surfaceWaveGridStep), () -> OOIClientConfig.setSurfaceWaveGridStep(OOIClientConfig.surfaceWaveGridStep - 1), () -> OOIClientConfig.setSurfaceWaveGridStep(OOIClientConfig.surfaceWaveGridStep + 1));
+            y += 24;
+            addNumber(center, y, "Wave opacity", "%.2f".formatted(OOIClientConfig.surfaceWaveOpacity), () -> OOIClientConfig.setSurfaceWaveOpacity(OOIClientConfig.surfaceWaveOpacity - 0.05D), () -> OOIClientConfig.setSurfaceWaveOpacity(OOIClientConfig.surfaceWaveOpacity + 0.05D));
+        } else if (page == 2) {
             addToggle(center, y, "True deep oceans", OOICommonConfig.enablePreabyssalAndAbyssalDepth, value -> OOICommonConfig.setEnablePreabyssalAndAbyssalDepth(value));
             y += 24;
             addToggle(center, y, "Abyssal oceans", OOICommonConfig.enableAbyssalOceans, value -> OOICommonConfig.setEnableAbyssalOceans(value));
@@ -44,7 +58,7 @@ public final class OOIConfigScreen extends Screen {
             addNumber(center, y, "Abyssal ocean multiplier", "%.2f".formatted(OOICommonConfig.abyssalOceanDepthMultiplier), () -> OOICommonConfig.setAbyssalOceanDepthMultiplier(OOICommonConfig.abyssalOceanDepthMultiplier - 0.05D), () -> OOICommonConfig.setAbyssalOceanDepthMultiplier(OOICommonConfig.abyssalOceanDepthMultiplier + 0.05D));
             y += 24;
             addNumber(center, y, "Abyssal ocean rarity", OOICommonConfig.abyssalOceanRarityPercent + "%", () -> OOICommonConfig.setAbyssalOceanRarityPercent(OOICommonConfig.abyssalOceanRarityPercent - 1), () -> OOICommonConfig.setAbyssalOceanRarityPercent(OOICommonConfig.abyssalOceanRarityPercent + 1));
-        } else if (page == 2) {
+        } else if (page == 3) {
             addToggle(center, y, "Large abyssal basins", OOICommonConfig.enableLargeAbyssalBasins, value -> OOICommonConfig.setEnableLargeAbyssalBasins(value));
             y += 24;
             addNumber(center, y, "Abyssal region scale", OOICommonConfig.abyssalRegionScaleBlocks + " blocks", () -> OOICommonConfig.setAbyssalRegionScaleBlocks(OOICommonConfig.abyssalRegionScaleBlocks - 128), () -> OOICommonConfig.setAbyssalRegionScaleBlocks(OOICommonConfig.abyssalRegionScaleBlocks + 128));
@@ -82,7 +96,7 @@ public final class OOIConfigScreen extends Screen {
         }).bounds(center - 115, y, 110, 20).build());
 
         this.addRenderableWidget(Button.builder(Component.literal(">"), button -> {
-            page = Math.min(3, page + 1);
+            page = Math.min(4, page + 1);
             rebuildWidgets();
         }).bounds(center - 1, y, 36, 20).build());
 
@@ -119,15 +133,16 @@ public final class OOIConfigScreen extends Screen {
 
     private String pageLabel() {
         return switch (page) {
-            case 0 -> "Immersion 1/4";
-            case 1 -> "Worldgen 2/4";
-            case 2 -> "Abyssal 3/4";
-            default -> "Advanced 4/4";
+            case 0 -> "Immersion 1/5";
+            case 1 -> "Surface 2/5";
+            case 2 -> "Worldgen 3/5";
+            case 3 -> "Abyssal 4/5";
+            default -> "Advanced 5/5";
         };
     }
 
     private String pageHint() {
-        return page == 1 || page == 2 ? "Worldgen changes affect newly generated chunks." : "";
+        return page == 2 || page == 3 ? "Worldgen changes affect newly generated chunks." : "";
     }
 
     private void saveAndClose() {

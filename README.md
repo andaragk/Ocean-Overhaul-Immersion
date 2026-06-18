@@ -6,7 +6,7 @@ The mod focuses on perception: underwater visibility, depth, fog, light, isolati
 
 ## Current Status
 
-Version: `0.2.7`
+Version: `0.3.0`
 
 This is an early test build for Minecraft `1.21.1` on NeoForge. The core immersion features are usable, while the abyssal worldgen layer is still experimental and should be tested on new worlds or newly generated chunks.
 
@@ -21,8 +21,36 @@ This is an early test build for Minecraft `1.21.1` on NeoForge. The core immersi
   - Hadal: 111+ blocks below the surface.
 - Progressive vanilla underwater fog and visibility changes.
 - Smooth fog transitions when entering, leaving, or descending through water.
+- Lightweight client-side visual surface waves.
 - Optional Calm Bubbles behavior: bubble columns stay visible but no longer push or pull entities.
 - PaperWorks API alpha integration for publishing ocean immersion state.
+
+## Surface Waves
+
+The first `0.3.x` surface module adds a lightweight animated visual wave overlay around the player.
+
+- `enable_surface_waves`
+  - Enables or disables visual waves.
+  - Client-side only.
+  - Does not modify collisions, hitboxes, water physics, or server state.
+
+- `surface_wave_height`
+  - Controls the vertical amplitude of the visual waves.
+
+- `surface_wave_speed`
+  - Controls wave animation speed.
+
+- `surface_wave_scale`
+  - Controls horizontal wave width.
+
+- `surface_wave_radius`
+  - Controls how far from the player wave surfaces are sampled.
+
+- `surface_wave_grid_step`
+  - Controls sampling/detail. Lower values are more detailed but heavier.
+
+- `surface_wave_opacity`
+  - Controls the visibility of the visual overlay.
 
 ## Experimental Worldgen
 
@@ -67,7 +95,7 @@ The client config includes `enable_shader_diagnostic_overlay`, which displays th
 
 This mod does not add mobs, structures, loot, ores, equipment, bosses, hardcore oxygen systems, or a complete weather system.
 
-Surface waves, wakes, particles, sediments, and shader-specific integration are planned as later work, not part of the current stable core.
+Wakes, splashes, particles, sediments, vine physics, and shader-specific wave injection are planned as later work.
 
 ## License
 
