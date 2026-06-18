@@ -8,7 +8,9 @@ import me.andaragk.oceanoverhaulimmersion.OceanOverhaulImmersion;
 import me.andaragk.oceanoverhaulimmersion.config.OOIClientConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -68,13 +70,14 @@ public final class SurfaceWaveRenderer {
         poseStack.pushPose();
         poseStack.translate(-camera.x, -camera.y, -camera.z);
         Matrix4f pose = poseStack.last().pose();
-        VertexConsumer consumer = minecraft.renderBuffers().bufferSource().getBuffer(RenderType.debugQuads());
+        VertexConsumer consumer = minecraft.renderBuffers().bufferSource().getBuffer(RenderType.translucent());
+        TextureAtlasSprite waterSprite = minecraft.getModelManager().getBlockModelShaper().getBlockModel(net.minecraft.world.level.block.Blocks.WATER.defaultBlockState()).getParticleIcon();
 
         for (WaveTile tile : WAVE_TILES) {
-            renderTile(consumer, pose, tile, time, alpha);
+            renderTile(consumer, pose, tile, waterSprite, minecraft.level, time, alpha);
         }
 
-        minecraft.renderBuffers().bufferSource().endBatch(RenderType.debugQuads());
+        minecraft.renderBuffers().bufferSource().endBatch(RenderType.translucent());
         poseStack.popPose();
     }
 
@@ -123,20 +126,25 @@ public final class SurfaceWaveRenderer {
         return Integer.MIN_VALUE;
     }
 
-    private static void renderTile(VertexConsumer consumer, Matrix4f pose, WaveTile tile, float time, float alpha) {
+    private static void renderTile(VertexConsumer consumer, Matrix4f pose, WaveTile tile, TextureAtlasSprite sprite, ClientLevel level, float time, float alpha) {
         float x0 = tile.x();
         float x1 = tile.x() + tile.size();
         float z0 = tile.z();
         float z1 = tile.z() + tile.size();
         float y = tile.y();
-        float r = 0.58F;
-        float g = 0.86F;
-        float b = 0.95F;
+        float r = 0.86F;
+        float g = 0.96F;
+        float b = 1.0F;
+        float u0 = sprite.getU(Math.floorMod((int) x0, 16) / 16.0F);
+        float u1 = sprite.getU(Math.floorMod((int) x1, 16) / 16.0F);
+        float v0 = sprite.getV(Math.floorMod((int) z0, 16) / 16.0F);
+        float v1 = sprite.getV(Math.floorMod((int) z1, 16) / 16.0F);
+        int light = LevelRenderer.getLightColor(level, BlockPos.containing(x0, y, z0));
 
-        vertex(consumer, pose, x0, y + wave(x0, z0, time), z0, r, g, b, alpha);
-        vertex(consumer, pose, x0, y + wave(x0, z1, time), z1, r, g, b, alpha);
-        vertex(consumer, pose, x1, y + wave(x1, z1, time), z1, r, g, b, alpha);
-        vertex(consumer, pose, x1, y + wave(x1, z0, time), z0, r, g, b, alpha);
+        vertex(consumer, pose, x0, y + wave(x0, z0, time), z0, r, g, b, alpha, u0, v0, light);
+        vertex(consumer, pose, x0, y + wave(x0, z1, time), z1, r, g, b, alpha, u0, v1, light);
+        vertex(consumer, pose, x1, y + wave(x1, z1, time), z1, r, g, b, alpha, u1, v1, light);
+        vertex(consumer, pose, x1, y + wave(x1, z0, time), z0, r, g, b, alpha, u1, v0, light);
     }
 
     private static float wave(float x, float z, float time) {
@@ -147,8 +155,12 @@ public final class SurfaceWaveRenderer {
         return (primary * 0.65F + secondary * 0.35F) * height;
     }
 
-    private static void vertex(VertexConsumer consumer, Matrix4f pose, float x, float y, float z, float red, float green, float blue, float alpha) {
-        consumer.addVertex(pose, x, y, z).setColor(red, green, blue, alpha);
+    private static void vertex(VertexConsumer consumer, Matrix4f pose, float x, float y, float z, float red, float green, float blue, float alpha, float u, float v, int light) {
+        consumer.addVertex(pose, x, y, z)
+                .setColor(red, green, blue, alpha)
+                .setUv(u, v)
+                .setLight(light)
+                .setNormal(0.0F, 1.0F, 0.0F);
     }
 
     private record WaveTile(int x, float y, int z, int size) {

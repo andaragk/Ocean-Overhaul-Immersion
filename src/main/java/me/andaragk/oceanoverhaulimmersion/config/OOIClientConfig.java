@@ -46,9 +46,9 @@ public final class OOIClientConfig {
 
     private static final ModConfigSpec.BooleanValue ENABLE_SURFACE_WAVES = BUILDER
             .comment(
-                    "Experimental visual wave overlay used for testing only.",
-                    "Disabled by default because the final wave system should integrate deeper into water rendering.")
-            .define("enable_surface_waves", false);
+                    "Enables client-side visual waves on nearby water surfaces.",
+                    "This is visual only: it does not change water physics, collisions, or world state.")
+            .define("enable_surface_waves_v2", true);
 
     private static final ModConfigSpec.DoubleValue SURFACE_WAVE_HEIGHT = BUILDER
             .comment("Visual wave height in blocks.")
@@ -71,8 +71,8 @@ public final class OOIClientConfig {
             .defineInRange("surface_wave_grid_step", 2, 1, 6);
 
     private static final ModConfigSpec.DoubleValue SURFACE_WAVE_OPACITY = BUILDER
-            .comment("Opacity of the visual wave highlight overlay.")
-            .defineInRange("surface_wave_opacity", 0.20D, 0.0D, 0.75D);
+            .comment("Opacity of the visual wave surface.")
+            .defineInRange("surface_wave_opacity", 0.16D, 0.0D, 0.45D);
 
     public static final ModConfigSpec SPEC = BUILDER.build();
 
@@ -189,7 +189,7 @@ public final class OOIClientConfig {
     }
 
     public static void setSurfaceWaveOpacity(double value) {
-        surfaceWaveOpacity = Math.max(0.0D, Math.min(0.75D, value));
+        surfaceWaveOpacity = Math.max(0.0D, Math.min(0.45D, value));
         SURFACE_WAVE_OPACITY.set(surfaceWaveOpacity);
     }
 

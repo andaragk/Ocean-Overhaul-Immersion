@@ -6,7 +6,7 @@ The mod focuses on perception: underwater visibility, depth, fog, light, isolati
 
 ## Current Status
 
-Version: `0.3.1`
+Version: `0.3.2`
 
 This is an early test build for Minecraft `1.21.1` on NeoForge. The core immersion features are usable, while the abyssal worldgen layer is still experimental and should be tested on new worlds or newly generated chunks.
 
@@ -32,6 +32,10 @@ The first `0.3.x` surface module includes an experimental animated wave overlay 
 This overlay is mainly a diagnostic prototype. It proves that Ocean Overhaul can animate water-adjacent visuals, but it is not the intended final wave rendering path. The final wave system should integrate deeper into water rendering or shader-aware rendering so it does not look like a separate mesh placed on top of the ocean.
 
 - `enable_surface_waves`
+  - Legacy name for the first prototype.
+  - Replaced internally by `enable_experimental_wave_overlay` so older local configs do not accidentally keep the visible overlay enabled.
+
+- `enable_experimental_wave_overlay`
   - Enables or disables the experimental visual wave overlay.
   - Disabled by default.
   - Client-side only.
